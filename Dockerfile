@@ -55,6 +55,6 @@ COPY . /var/www/html
 
 RUN composer install
 
-EXPOSE 8000
+EXPOSE 80
 
 ENTRYPOINT ["start-container"]
