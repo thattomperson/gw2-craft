@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\RecipeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,4 +22,9 @@ Route::get('/', function () {
 Route::controller(ItemController::class)->group(function () {
     Route::get('/items/{item}', 'show');
     Route::get('/items', 'index');
+});
+
+Route::controller(RecipeController::class)->group(function () {
+    Route::get('/recipes/{recipe}', 'show');
+    Route::get('/recipes', 'index');
 });

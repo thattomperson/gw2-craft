@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreItemRequest;
-use App\Http\Requests\UpdateItemRequest;
 use App\Models\Item;
 
 class ItemController extends Controller
@@ -15,7 +13,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = Item::whereNotNull('type')->paginate();
+        $items = Item::with('listing')->has('listing')->paginate();
 
         return view('items.list', ['items' => $items]);
     }
@@ -30,39 +28,5 @@ class ItemController extends Controller
     public function show(Item $item)
     {
         return view('items.show', ['item' => $item]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Item $item)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateItemRequest  $request
-     * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateItemRequest $request, Item $item)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Item $item)
-    {
-        //
     }
 }

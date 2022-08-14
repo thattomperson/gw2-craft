@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('items', function (Blueprint $table) {
-            $table->id();
-            $table->integer('remote_id');
+            $table->uuid('id')->unique();
+            $table->integer('remote_id')->unique();
             $table->string('name')->nullable();
             $table->longText('description')->nullable();
             $table->string('type')->nullable();

@@ -6,24 +6,25 @@ namespace App\Console\Commands;
 use App\Models\Item;
 use GW2Treasures\GW2Api\GW2Api;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
-class SyncItems extends Command
+class Sync extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'sync:items';
+    protected $signature = 'sync';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Sync Items from GW2 api';
+    protected $description = 'Sync all obj from GW2 api';
 
     /**
      * Execute the console command.
@@ -32,22 +33,8 @@ class SyncItems extends Command
      */
     public function handle()
     {
-        $client = new GW2Api();
-
-        $this->checkForNewItems($client);
-        return 0;
-        
-        // $itemsIds = Item::orderBy('updated_at', 'asc')->limit(20000)->select('remote_id')->get()->pluck('remote_id')->toArray();
-        // $items = $client->items()->many($itemsIds);
-        
-        // $this->withProgressBar(
-        //     $items,
-        //     function ($obj) {
-        //         $item = Item::where('remote_id', $obj->id)->first();
-        //         $item->fill((array) $obj);
-        //         $item->save();
-        //     }
-        // );
+        Artisan::call('sync:items', [], $this->getOutput());
+        Artisan::call('sync:recipes', [], $this->getOutput());
     }
 
     public function checkForNewItems(GW2Api $client)
