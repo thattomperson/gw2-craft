@@ -15,29 +15,11 @@ class ItemController extends Controller
      */
     public function index()
     {
-        //
+        $items = Item::whereNotNull('type')->paginate();
+
+        return view('items.list', ['items' => $items]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreItemRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreItemRequest $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -47,7 +29,7 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        //
+        return view('items.show', ['item' => $item]);
     }
 
     /**

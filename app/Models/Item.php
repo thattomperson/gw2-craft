@@ -10,25 +10,25 @@ class Item extends Model
     use HasFactory;
 
     protected $casts = [
-        'gameTypes' => 'json',
+        'game_types' => 'json',
         'flags' => 'json',
         'restrictions' => 'json',
         'details' => 'json',
     ];
 
     protected $fillable = [
-        'remoteId',
+        'remote_id',
         'name',
         'description',
         'type',
         'level',
         'rarity',
-        'vendorValue',
-        'defaultSkin',
-        'gameTypes',
+        'vendor_value',
+        'default_skin',
+        'game_types',
         'flags',
         'restrictions',
-        'chatLink',
+        'chat_link',
         'icon',
         'details',
     ];

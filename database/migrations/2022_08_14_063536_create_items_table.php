@@ -15,18 +15,18 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->integer('remoteId');
+            $table->integer('remote_id');
             $table->string('name')->nullable();
-            $table->string('description')->nullable();
-            $table->string('type');
+            $table->longText('description')->nullable();
+            $table->string('type')->nullable();
             $table->integer('level')->default(0);
             $table->string('rarity')->nullable();
-            $table->integer('vendorValue')->default(0);
-            $table->integer('defaultSkin')->default(0);
-            $table->jsonb('gameTypes')->nullable();
+            $table->integer('vendor_value')->default(0);
+            $table->integer('default_skin')->default(0);
+            $table->jsonb('game_types')->nullable();
             $table->jsonb('flags')->nullable();
             $table->jsonb('restrictions')->nullable();
-            $table->string('chatLink')->nullable();
+            $table->string('chat_link')->nullable();
             $table->string('icon')->nullable();
             $table->jsonb('details')->nullable();
             $table->timestamps();
