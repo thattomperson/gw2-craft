@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ccbd816a07b206f971042295b899d1ba",
+    "content-hash": "bde424c346c7248a9d966c05804d3c93",
     "packages": [
         {
             "name": "brick/math",
@@ -888,6 +888,62 @@
                 }
             ],
             "time": "2022-06-20T21:43:11+00:00"
+        },
+        {
+            "name": "gw2treasures/gw2api",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thattomperson/gw2api.git",
+                "reference": "1ce39a1a54c4d59761470f98df141fab97c8df58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thattomperson/gw2api/zipball/1ce39a1a54c4d59761470f98df141fab97c8df58",
+                "reference": "1ce39a1a54c4d59761470f98df141fab97c8df58",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.2"
+            },
+            "require-dev": {
+                "mtdowling/burgomaster": "^0.0.2",
+                "phpunit/phpunit": "^9"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GW2Treasures\\GW2Api\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "classmap": [
+                    "tests/"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "darthmaim",
+                    "email": "darth.maim@arcor.de"
+                }
+            ],
+            "description": "PHP wrapper for the Guild Wars 2 API.",
+            "homepage": "https://github.com/GW2Treasures/gw2api",
+            "keywords": [
+                "api",
+                "guild wars 2",
+                "guildwars2",
+                "wrapper"
+            ],
+            "support": {
+                "issues": "https://github.com/GW2Treasures/gw2api/issues",
+                "source": "https://github.com/GW2Treasures/gw2api"
+            },
+            "time": "2022-08-14T06:19:09+00:00"
         },
         {
             "name": "laravel/framework",
@@ -7915,7 +7971,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "gw2treasures/gw2api": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
