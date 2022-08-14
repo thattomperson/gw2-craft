@@ -55,6 +55,12 @@ COPY . /var/www/html
 
 RUN composer install
 
+RUN php artisan view:cache \
+    && php artisan route:cache \
+    && php artisan config:cache \
+    && php artisan event:cache \
+    && php artisan optimise
+
 EXPOSE 80
 
 ENTRYPOINT ["start-container"]
