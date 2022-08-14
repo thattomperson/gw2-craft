@@ -59,7 +59,7 @@ RUN php artisan view:cache \
     && php artisan route:cache \
     && php artisan config:cache \
     && php artisan event:cache \
-    && php artisan optimise
+    && php artisan optimize
 
 EXPOSE 80
 
