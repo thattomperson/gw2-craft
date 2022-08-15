@@ -22,8 +22,6 @@ services:
             - '.:/var/www/html'
         networks:
             - sail
-        depends_on:
-            - mysql
 networks:
     sail:
         driver: bridge
