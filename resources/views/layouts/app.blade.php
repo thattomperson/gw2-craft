@@ -1,7 +1,7 @@
 
 <html class="h-full bg-gray-100">
 <head>
-    <script src="https://cdn.tailwindcss.com"></script>
+  @vite('resources/css/app.css')
 </head>
 <body class="h-full">
 <div>
@@ -9,7 +9,7 @@
     <div class="relative z-40 md:hidden" role="dialog" aria-modal="true">
       <!--
         Off-canvas menu backdrop, show/hide based on off-canvas menu state.
-  
+
         Entering: "transition-opacity ease-linear duration-300"
           From: "opacity-0"
           To: "opacity-100"
@@ -18,11 +18,11 @@
           To: "opacity-0"
       -->
       <div class="fixed inset-0 bg-gray-600 bg-opacity-75"></div>
-  
+
       <div class="fixed inset-0 flex z-40">
         <!--
           Off-canvas menu, show/hide based on off-canvas menu state.
-  
+
           Entering: "transition ease-in-out duration-300 transform"
             From: "-translate-x-full"
             To: "translate-x-0"
@@ -33,7 +33,7 @@
         <div class="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-gray-800">
           <!--
             Close button, show/hide based on off-canvas menu state.
-  
+
             Entering: "ease-in-out duration-300"
               From: "opacity-0"
               To: "opacity-100"
@@ -50,7 +50,7 @@
               </svg>
             </button>
           </div>
-  
+
           <div class="flex-shrink-0 flex items-center px-4">
             <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=500" alt="Workflow">
           </div>
@@ -60,7 +60,7 @@
               <a href="#" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-base font-medium rounded-md">
                 <!--
                   Heroicon name: outline/home
-  
+
                   Current: "text-gray-300", Default: "text-gray-400 group-hover:text-gray-300"
                 -->
                 <svg class="text-gray-300 mr-4 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -68,7 +68,7 @@
                 </svg>
                 Dashboard
               </a>
-  
+
               <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-base font-medium rounded-md">
                 <!-- Heroicon name: outline/users -->
                 <svg class="text-gray-400 group-hover:text-gray-300 mr-4 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -76,7 +76,7 @@
                 </svg>
                 Team
               </a>
-  
+
               <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-base font-medium rounded-md">
                 <!-- Heroicon name: outline/folder -->
                 <svg class="text-gray-400 group-hover:text-gray-300 mr-4 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -84,7 +84,7 @@
                 </svg>
                 Projects
               </a>
-  
+
               <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-base font-medium rounded-md">
                 <!-- Heroicon name: outline/calendar -->
                 <svg class="text-gray-400 group-hover:text-gray-300 mr-4 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -92,7 +92,7 @@
                 </svg>
                 Calendar
               </a>
-  
+
               <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-base font-medium rounded-md">
                 <!-- Heroicon name: outline/inbox -->
                 <svg class="text-gray-400 group-hover:text-gray-300 mr-4 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -100,7 +100,7 @@
                 </svg>
                 Documents
               </a>
-  
+
               <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-base font-medium rounded-md">
                 <!-- Heroicon name: outline/chart-bar -->
                 <svg class="text-gray-400 group-hover:text-gray-300 mr-4 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -111,13 +111,13 @@
             </nav>
           </div>
         </div>
-  
+
         <div class="flex-shrink-0 w-14" aria-hidden="true">
           <!-- Dummy element to force sidebar to shrink to fit close icon -->
         </div>
       </div>
     </div>
-  
+
     <!-- Static sidebar for desktop -->
     <div class="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
       <!-- Sidebar component, swap this element with another sidebar if you like -->
@@ -131,7 +131,7 @@
             <a href="/" class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
               <!--
                 Heroicon name: outline/home
-  
+
                 Current: "text-gray-300", Default: "text-gray-400 group-hover:text-gray-300"
               -->
               <svg class="text-gray-300 mr-3 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -139,7 +139,7 @@
               </svg>
               Dashboard
             </a>
-  
+
             <a href="/items" class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
               <!-- Heroicon name: outline/users -->
               <svg class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -147,7 +147,7 @@
               </svg>
               Items
             </a>
-  
+
             <a href="/recipes" class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
               <!-- Heroicon name: outline/folder -->
               <svg class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -155,7 +155,7 @@
               </svg>
               Recipes
             </a>
-  
+
             <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
               <!-- Heroicon name: outline/calendar -->
               <svg class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -163,7 +163,7 @@
               </svg>
               Calendar
             </a>
-  
+
             <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
               <!-- Heroicon name: outline/inbox -->
               <svg class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -171,7 +171,7 @@
               </svg>
               Documents
             </a>
-  
+
             <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
               <!-- Heroicon name: outline/chart-bar -->
               <svg class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -215,7 +215,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
               </svg>
             </button>
-  
+
             <!-- Profile dropdown -->
             <div class="ml-3 relative">
               <div>
@@ -224,10 +224,10 @@
                   <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
                 </button>
               </div>
-  
+
               <!--
                 Dropdown menu, show/hide based on menu state.
-  
+
                 Entering: "transition ease-out duration-100"
                   From: "transform opacity-0 scale-95"
                   To: "transform opacity-100 scale-100"
@@ -238,16 +238,16 @@
               <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                 <!-- Active: "bg-gray-100", Not Active: "" -->
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-  
+
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-  
+
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
               </div>
             </div>
           </div>
         </div>
       </div>
-  
+
       <main class="flex-1">
         <div class="py-6">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
