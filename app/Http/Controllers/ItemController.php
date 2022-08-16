@@ -13,7 +13,9 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = Item::with('listing')->has('listing')->paginate();
+        $items = Item::with('listing')
+          ->has('listing')
+          ->paginate();
 
         return view('items.list', ['items' => $items]);
     }
@@ -27,6 +29,8 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        return view('items.show', ['item' => $item]);
+      $item->load('recipes.ingredients');
+      $item->load('ingredientIn.item');
+      return view('items.show', ['item' => $item]);
     }
 }

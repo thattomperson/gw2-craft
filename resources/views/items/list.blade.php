@@ -1,7 +1,4 @@
-@extends('layouts.app')
-
-
-@section('content')
+<x-app-layout>
    <!-- This example requires Tailwind CSS v2.0+ -->
         <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
@@ -59,11 +56,11 @@
                         </td>
                     </tr>
                     @endforeach
-    
+
                     <!-- More people... -->
                 </tbody>
                 </table>
-                
+
             </div>
             <div class="py-2">
                 {{$items->render()}}
@@ -71,5 +68,4 @@
             </div>
         </div>
         </div>
-
-@endsection
+</x-app-layout>

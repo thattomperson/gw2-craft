@@ -10,66 +10,60 @@ use Illuminate\Support\Str;
 
 class SyncListings extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'sync:listings';
+  /**
+   * The name and signature of the console command.
+   *
+   * @var string
+   */
+  protected $signature = 'sync:listings';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
+  /**
+   * The console command description.
+   *
+   * @var string
+   */
+  protected $description = 'Command description';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
-    public function handle()
-    {
-        $client = new GW2Api();
-        $this->checkForNewListings($client);
+  /**
+   * Execute the console command.
+   *
+   * @return int
+   */
+  public function handle()
+  {
+    $client = new GW2Api();
+    $this->checkForNewListings($client);
 
-        return 0;
-    }
+    return 0;
+  }
 
-    public function checkForNewListings(GW2Api $client)
-    {
-        $this->output->info('Checking for new listings');
-        
-        $ids = $client->commerce()->listings()->ids();
-        
-        $old_ids = Listing::select('remote_item_id')->get()->pluck('remote_item_id')->toArray();
-        $new_ids = collect(array_diff($ids, $old_ids));
-        $count = $new_ids->count();
+  public function checkForNewListings(GW2Api $client)
+  {
+    $this->output->info('Checking for new listings');
 
-        $this->output->info("$count new listings found");
-        if ($count > 0) {
-            $chunks = $new_ids->chunk(200);
-            $this->output->info("Inserting new listings");
+    $listings = collect($client->commerce()->listings()->all());
+    if ($listings->isEmpty()) return;
 
-            $this->withProgressBar($chunks, function ($chunk) use ($client) {
-                $listings = collect($client->commerce()->listings()->many($chunk->toArray()));
-
-                DB::table('listings')->insert(
-                    $listings
-                        ->map(function ($listing) {
-                            return [
-                                'id' => Str::uuid(),
-                                'remote_item_id' => $listing->id,
-                                'buy' => json_encode($listing->buys ?? []),
-                                'sell' => json_encode($listing->sells ?? []),
-                                'created_at' => now(),
-                                'updated_at' => now(),
-                            ];
-                        })
-                        ->toArray()
-                );
-            });
-        }
-    }
+    $this->output->info("Upserting {$listings->count()} records");
+    $chunks = $listings->chunk(100);
+    $this->withProgressBar($chunks, function ($listings) {
+      DB::table('listings')
+      ->upsert(
+        $listings
+          ->map(function ($listing) {
+            return [
+              'id' => Str::uuid(),
+              'remote_item_id' => $listing->id,
+              'buy' => json_encode($listing->buys ?? []),
+              'sell' => json_encode($listing->sells ?? []),
+              'created_at' => now(),
+              'updated_at' => now(),
+            ];
+          })
+          ->toArray(),
+        'remote_item_id',
+        ['buy', 'sell', 'updated_at']
+      );
+    });
+  }
 }

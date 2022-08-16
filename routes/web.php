@@ -19,12 +19,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::controller(ItemController::class)->group(function () {
-    Route::get('/items/{item}', 'show');
-    Route::get('/items', 'index');
-});
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-Route::controller(RecipeController::class)->group(function () {
-    Route::get('/recipes/{recipe}', 'show');
-    Route::get('/recipes', 'index');
-});
+
+Route::resource('items', ItemController::class);
+Route::resource('recipes', RecipeController::class);
+
+require __DIR__.'/auth.php';
