@@ -12,8 +12,6 @@ updates:
       interval: "daily"
     labels:
       - "dependencies"
-      # Add default Kodiak `merge.automerge_label`
-      - "automerge"
 
   # Maintain dependencies for Composer
   - package-ecosystem: "composer"
@@ -22,5 +20,3 @@ updates:
       interval: "daily"
     labels:
       - "dependencies"
-      # Add default Kodiak `merge.automerge_label`
-      - "automerge"
