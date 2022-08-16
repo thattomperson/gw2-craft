@@ -19,6 +19,7 @@
                     <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Raity</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Trading Post</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Crafting</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Last Updated</th>
                     <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                         <span class="sr-only">Edit</span>
@@ -44,9 +45,13 @@
                             <div class="text-gray-500">{{$item->level}}</div>
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            <div class="text-gray-900">Purchace for {{$item->lowest_sell_listing['unit_price']}}</div>
-                            <div class="text-gray-500">Selling for {{$item->highest_buy_listing['unit_price']}}</div>
+
+                            <div class="text-gray-900">Purchace for <x-price price="{{$item->lowest_sell_listing['unit_price'] ?? null}}" /> </div>
+                            <div class="text-gray-500">Selling for <x-price price="{{$item->highest_buy_listing['unit_price'] ?? null}}" /></div>
                         </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          <div class="text-gray-900">Cost <x-price price="{{$item->crafting_cost}}" /></div>
+                      </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             <div class="text-gray-900">{{$item->updated_at->shortRelativeToNowDiffForHumans()}}</div>
                             <div class="text-gray-500">{{$item->listing?->updated_at?->shortRelativeToNowDiffForHumans()}}</div>

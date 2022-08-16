@@ -38,9 +38,14 @@ class Recipe extends Model
             ->withPivot('count');
     }
 
+    public function recipeIngredients()
+    {
+      return $this->hasMany(RecipeIngredient::class);
+    }
+
     public function item()
     {
         return $this->belongsTo(Item::class, 'output_item_id', 'remote_id');
     }
-    
+
 }

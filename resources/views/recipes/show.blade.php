@@ -51,7 +51,7 @@
                                             <img src="{{ $ingredient->icon }}" class="flex-shrink-0 h-5 w-5"
                                                 aria-hidden="true" />
                                             <span class="ml-2 flex-1 w-0 truncate"> {{ $ingredient->name }} -
-                                                {{ $ingredient->pivot->count }} </span>
+                                                {{ $ingredient->pivot->count }} - <x-price price="{{ $ingredient->lowest_sell_listing['unit_price'] ?? null }}"></x-price> </span>
                                         </div>
                                         <div class="ml-4 flex-shrink-0">
                                             <a href="/items/{{ $ingredient->id }}"
