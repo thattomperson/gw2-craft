@@ -46,7 +46,7 @@ class Item extends Model
 
     public function ingredientIn()
     {
-        return $this->hasManyThrough(Recipe::class, RecipeIngredient::class, 'remote_item_id', 'remote_id', 'remote_id', 'recipe_id');
+        return $this->hasManyThrough(Recipe::class, RecipeIngredient::class, 'remote_item_id', 'id', 'remote_id', 'recipe_id');
     }
 
     public function listing()
