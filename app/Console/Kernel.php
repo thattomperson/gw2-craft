@@ -16,7 +16,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('sync')->monthly();
-        $schedule->command('sync:listings')->everyFiveMinutes();
+        $schedule->command('sync:listings')
+          ->withoutOverlapping()
+          ->runInBackground()
+          ->sendOutputTo(storage_path('/logs/sync-listings.log'))
+          ->everyMinute();
     }
 
     /**
