@@ -13,7 +13,8 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "marcj/topsort": "^2.0",
-        "sentry/sentry-laravel": "^2.13"
+        "sentry/sentry-laravel": "^2.13",
+        "spatie/laravel-schedule-monitor": "^3.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

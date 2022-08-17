@@ -3,6 +3,8 @@
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\JobExecutionController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\ScheduleMonitorTaskController;
+use App\Http\Controllers\ScheduleMonitorTaskLogItemController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +29,13 @@ Route::get('/dashboard', function () {
 
 Route::resource('items', ItemController::class);
 Route::resource('recipes', RecipeController::class);
-Route::resource('job-execution', JobExecutionController::class);
+Route::controller(ScheduleMonitorTaskController::class)->group(function () {
+  Route::get('/schedule-monitor', 'index');
+  Route::get('/schedule-monitor/{scheduleMonitorTask}', 'show');
+});
+Route::controller(ScheduleMonitorTaskLogItemController::class)->group(function () {
+  Route::get('/schedule-monitor/{scheduleMonitorTask}/logs', 'index')->scopeBindings();
+  Route::get('/schedule-monitor/{scheduleMonitorTask}/logs/{scheduleMonitorTaskLogItem}', 'show')->scopeBindings();
+});
 
 require __DIR__.'/auth.php';
