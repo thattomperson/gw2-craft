@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use App\Models\Listing;
 use GW2Treasures\GW2Api\GW2Api;
+use GW2Treasures\GW2Api\V2\Endpoint;
+use GW2Treasures\GW2Api\V2\Pagination\Exception\PageOutOfRangeException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -37,19 +39,26 @@ class SyncListings extends Command
     return 0;
   }
 
+  public function getPage(Endpoint $endpoint, $page)
+  {
+    try {
+      return $endpoint->page($page);
+    } catch (PageOutOfRangeException $e) {
+      return null;
+    }
+  }
+
   public function checkForNewListings(GW2Api $client)
   {
     $this->output->info('Checking for new listings');
 
-    $listings = collect($client->commerce()->listings()->all());
-    if ($listings->isEmpty()) return;
-
-    $this->output->info("Upserting {$listings->count()} records");
-    $chunks = $listings->chunk(100);
-    $this->withProgressBar($chunks, function ($listings) {
+    $count  = count($client->commerce()->listings()->ids());
+    $bar = $this->output->createProgressBar($count);
+    $page = 1;
+    while ($listings = $this->getPage($client->commerce()->listings(), $page)) {
       DB::table('listings')
       ->upsert(
-        $listings
+        collect($listings)
           ->map(function ($listing) {
             return [
               'id' => Str::uuid(),
@@ -64,6 +73,11 @@ class SyncListings extends Command
         'remote_item_id',
         ['buy', 'sell', 'updated_at']
       );
-    });
+
+      $page++;
+      $bar->advance(count($listings));
+    }
+
+    $bar->finish();
   }
 }

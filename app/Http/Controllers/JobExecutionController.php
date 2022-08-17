@@ -9,7 +9,7 @@ class JobExecutionController extends Controller
 {
     public function index()
     {
-        $jobExecutions = JobExecution::paginate();
+        $jobExecutions = JobExecution::orderBy('created_at', 'desc')->paginate();
         return view('jobExecutions.list', ['jobExecutions' => $jobExecutions]);
     }
 
