@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\JobExecutionController;
 use App\Http\Controllers\RecipeController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +27,6 @@ Route::get('/dashboard', function () {
 
 Route::resource('items', ItemController::class);
 Route::resource('recipes', RecipeController::class);
+Route::resource('job-execution', JobExecutionController::class);
 
 require __DIR__.'/auth.php';
