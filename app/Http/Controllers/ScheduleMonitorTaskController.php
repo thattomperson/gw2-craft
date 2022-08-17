@@ -9,11 +9,14 @@ class ScheduleMonitorTaskController extends Controller
 {
     public function index()
     {
-      return MonitoredScheduledTask::all();
+      return view('schedule-monitor.list', ['monitoredTasks' => MonitoredScheduledTask::paginate()]);
     }
 
     public function show(MonitoredScheduledTask $monitoredScheduledTask)
     {
-      return $monitoredScheduledTask;
+      return view('schedule-monitor.show', [
+        'monitoredTask' => $monitoredScheduledTask,
+        'monitoredTaskLogItems' => $monitoredScheduledTask->logItems()->paginate(),
+      ]);
     }
 }

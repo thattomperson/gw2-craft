@@ -13,8 +13,8 @@ class ScheduleMonitorTaskLogItemController extends Controller
       return $task->logItems;
     }
 
-    public function show(MonitoredScheduledTaskLogItem $task)
+    public function show(MonitoredScheduledTask $task, MonitoredScheduledTaskLogItem $logItems)
     {
-      return $task;
+      return $logItems;
     }
 }

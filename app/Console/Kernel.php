@@ -19,10 +19,12 @@ class Kernel extends ConsoleKernel
       $schedule->command('sync')
         ->runInBackground()
         ->withoutOverlapping()
+        ->storeOutputInDb()
         ->monthly();
 
       $schedule->command('sync:listings')
         ->withoutOverlapping()
+        ->storeOutputInDb()
         ->everyMinute();
 
       $schedule->command('model:prune', ['--model' => MonitoredScheduledTaskLogItem::class])->daily();

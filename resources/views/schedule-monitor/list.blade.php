@@ -32,17 +32,17 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 bg-white">
-                            @foreach ($jobExecutions as $jobExecution)
+                            @foreach ($monitoredTasks as $monitoredTask)
                                 <tr>
                                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                         <div class="flex items-center">
                                             <div class="ml-4">
-                                                <div class="font-medium text-gray-900">{{ $jobExecution->name }}</div>
+                                                <div class="font-medium text-gray-900">{{ $monitoredTask->name }}</div>
 
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    {{-- <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                       @if($jobExecution->status === 'succeeded')
                                         <span
                                             class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
@@ -55,11 +55,12 @@
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         {{ $jobExecution->created_at?->shortRelativeToNowDiffForHumans() }}</td>
+                                    --}}
                                     <td
                                         class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                        <a href="/job-execution/{{ $jobExecution->id }}"
+                                        <a href="/schedule-monitor/{{ $monitoredTask->id }}"
                                             class="text-indigo-600 hover:text-indigo-900">Open<span class="sr-only">,
-                                                {{ $jobExecution->name }}</span></a>
+                                                {{ $monitoredTask->name }}</span></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -68,7 +69,7 @@
 
                 </div>
                 <div class="py-2">
-                    {{ $jobExecutions->render() }}
+                    {{ $monitoredTasks->render() }}
                 </div>
             </div>
         </div>
