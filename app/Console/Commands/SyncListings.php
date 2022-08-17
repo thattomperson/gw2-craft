@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Listing;
 use GW2Treasures\GW2Api\GW2Api;
-use GW2Treasures\GW2Api\V2\Endpoint;
+use GW2Treasures\GW2Api\V2\Bulk\IBulkEndpoint;
 use GW2Treasures\GW2Api\V2\Pagination\Exception\PageOutOfRangeException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -39,10 +38,10 @@ class SyncListings extends Command
     return 0;
   }
 
-  public function getPage(Endpoint $endpoint, $page)
+  public function getPage(IBulkEndpoint $endpoint, $page)
   {
     try {
-      return $endpoint->page($page);
+      return $endpoint->page($page, 100);
     } catch (PageOutOfRangeException $e) {
       return null;
     }
@@ -51,31 +50,28 @@ class SyncListings extends Command
   public function checkForNewListings(GW2Api $client)
   {
     $this->output->info('Checking for new listings');
-
-    $count  = count($client->commerce()->listings()->ids());
-    $bar = $this->output->createProgressBar($count);
+    $bar = $this->output->createProgressBar();
     $page = 1;
     while ($listings = $this->getPage($client->commerce()->listings(), $page)) {
       DB::table('listings')
       ->upsert(
-        collect($listings)
-          ->map(function ($listing) {
-            return [
-              'id' => Str::uuid(),
-              'remote_item_id' => $listing->id,
-              'buy' => json_encode($listing->buys ?? []),
-              'sell' => json_encode($listing->sells ?? []),
-              'created_at' => now(),
-              'updated_at' => now(),
-            ];
-          })
-          ->toArray(),
+        array_map(function ($listing) {
+          return [
+            'id' => Str::uuid(),
+            'remote_item_id' => $listing->id,
+            'buy' => json_encode($listing->buys ?? []),
+            'sell' => json_encode($listing->sells ?? []),
+            'created_at' => now(),
+            'updated_at' => now(),
+          ];
+        }, $listings),
         'remote_item_id',
         ['buy', 'sell', 'updated_at']
       );
 
       $page++;
       $bar->advance(count($listings));
+      unset($listings);
     }
 
     $bar->finish();
