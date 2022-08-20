@@ -2,13 +2,18 @@
 
 namespace App\Console\Commands;
 
+use App\Exceptions\Handler;
 use GuzzleHttp\Client;
 use GW2Treasures\GW2Api\GW2Api;
 use GW2Treasures\GW2Api\V2\Bulk\IBulkEndpoint;
 use GW2Treasures\GW2Api\V2\Pagination\Exception\PageOutOfRangeException;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use JsonException;
+use Sentry\Laravel\SentryHandler;
+use Sentry\SentrySdk;
 use Throwable;
 
 class SyncListings extends Command
@@ -54,6 +59,8 @@ class SyncListings extends Command
             'created_at' => now(),
             'updated_at' => now(),
           ];
+        } catch (JsonException $e) {
+          $this->output->error($e);
         } finally {
           unset($buy, $sell);
           unset($listing);
