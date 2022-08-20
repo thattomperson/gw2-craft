@@ -35,10 +35,9 @@ class SyncListings extends Command
   public function handle()
   {
     $client = new Client();
-
-
     $this->output->info('Checking for new listings');
-    // $bar = $this->output->createProgressBar();
+
+    $bar = $this->output->createProgressBar();
     $page = 1;
     DB::disableQueryLog();
     DB::unsetEventDispatcher();
@@ -61,7 +60,7 @@ class SyncListings extends Command
         }
       }, $listings);
 
-    
+
 
       DB::table('listings')
       ->upsert(
@@ -70,13 +69,12 @@ class SyncListings extends Command
         ['buy', 'sell', 'updated_at']
       );
 
-      $this->output->write("done page " . $page . ": " .  memory_get_peak_usage(true) . "\r");
       $page++;
-      // $bar->advance(count($listings));
+      $bar->advance(count($listings));
       unset($listings);
     }
 
-    // $bar->finish();
+    $bar->finish();
 
     return 0;
   }

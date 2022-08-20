@@ -206,7 +206,7 @@
           </svg>
         </button>
         <div class="flex-1 px-4 flex justify-between">
-          <div class="flex-1 flex">
+          <div class="flex-1 flex relative" x-data="{ query: '', data: [], async search() { this.data = this.query ? (await (await fetch(`/search?q=${this.query}`)).json()).data : [] } }">
             <form class="w-full flex md:ml-0" action="#" method="GET">
               <label for="search-field" class="sr-only">Search</label>
               <div class="relative w-full text-gray-400 focus-within:text-gray-600">
@@ -216,9 +216,29 @@
                     <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                   </svg>
                 </div>
-                <input id="search-field" class="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm" placeholder="Search" type="search" name="search">
+                <input @input.debounce.throttle="search" x-model="query" id="search-field" class="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm" placeholder="Search" type="search" name="search">
               </div>
             </form>
+            <div x-show="data.length && query" class="w-96 m-auto absolute top-20 left-8 bg-white shadow overflow-hidden rounded-md max-h-[800px] overflow-y-auto h-[calc(100vh-100px)]"  >
+              <ul role="list" class="divide-y divide-gray-200">
+                <template x-for="item in data">
+                  <li class="px-6 py-4">
+                    <a :href="`/items/${item.id}`">
+                      <div class="flex items-center">
+                        <div class="h-10 w-10 flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full" :src="item.icon" alt="">
+                        </div>
+                        <div class="ml-4">
+                            <div class="font-medium text-gray-900" x-text="item.name"></div>
+                            <div class="text-gray-500" x-text="item.type"></div>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                </template>
+                <!-- More items... -->
+              </ul>
+            </div>
           </div>
           <div class="ml-4 flex items-center md:ml-6">
             <button type="button" class="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

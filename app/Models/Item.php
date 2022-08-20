@@ -6,11 +6,13 @@ use App\Models\Traits\HasUniqueIdentifier;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Laravel\Scout\Searchable;
 
 class Item extends Model
 {
     use HasFactory;
     use HasUniqueIdentifier;
+    use Searchable;
 
     protected $keyType = 'string';
     public $incrementing = false;
@@ -70,5 +72,12 @@ class Item extends Model
         }
 
         return null;
+    }
+
+    public function toSearchableArray()
+    {
+      return [
+        'name' => $this->name,
+      ];
     }
 }

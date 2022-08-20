@@ -5,6 +5,7 @@ use App\Http\Controllers\JobExecutionController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ScheduleMonitorTaskController;
 use App\Http\Controllers\ScheduleMonitorTaskLogItemController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,4 +39,7 @@ Route::controller(ScheduleMonitorTaskLogItemController::class)->group(function (
   Route::get('/schedule-monitor/{scheduleMonitorTask}/logs/{scheduleMonitorTaskLogItem}', 'show')->scopeBindings();
 });
 
+Route::controller(SearchController::class)->group(function () {
+  Route::get('/search', 'search');
+});
 require __DIR__.'/auth.php';
