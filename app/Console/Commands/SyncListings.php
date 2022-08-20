@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use Barryvdh\Debugbar\Facades\Debugbar;
 use GuzzleHttp\Client;
 use GW2Treasures\GW2Api\GW2Api;
 use GW2Treasures\GW2Api\V2\Bulk\IBulkEndpoint;
@@ -42,7 +41,6 @@ class SyncListings extends Command
     // $bar = $this->output->createProgressBar();
     $page = 1;
     DB::disableQueryLog();
-    Debugbar::disable();
     DB::unsetEventDispatcher();
     while ($listings = $this->getPage($client, $page)) {
       $values = array_map(function ($listing) {
