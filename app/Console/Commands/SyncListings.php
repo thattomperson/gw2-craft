@@ -2,12 +2,15 @@
 
 namespace App\Console\Commands;
 
+use Barryvdh\Debugbar\Facades\Debugbar;
+use GuzzleHttp\Client;
 use GW2Treasures\GW2Api\GW2Api;
 use GW2Treasures\GW2Api\V2\Bulk\IBulkEndpoint;
 use GW2Treasures\GW2Api\V2\Pagination\Exception\PageOutOfRangeException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Throwable;
 
 class SyncListings extends Command
 {
@@ -32,48 +35,68 @@ class SyncListings extends Command
    */
   public function handle()
   {
-    $client = new GW2Api();
-    $this->checkForNewListings($client);
+    $client = new Client();
 
-    return 0;
-  }
 
-  public function getPage(IBulkEndpoint $endpoint, $page)
-  {
-    try {
-      return $endpoint->page($page, 100);
-    } catch (PageOutOfRangeException $e) {
-      return null;
-    }
-  }
-
-  public function checkForNewListings(GW2Api $client)
-  {
     $this->output->info('Checking for new listings');
-    $bar = $this->output->createProgressBar();
+    // $bar = $this->output->createProgressBar();
     $page = 1;
-    while ($listings = $this->getPage($client->commerce()->listings(), $page)) {
-      DB::table('listings')
-      ->upsert(
-        array_map(function ($listing) {
+    DB::disableQueryLog();
+    Debugbar::disable();
+    DB::unsetEventDispatcher();
+    while ($listings = $this->getPage($client, $page)) {
+      $values = array_map(function ($listing) {
+        try {
+        $buy = json_encode($listing->buys ?? [], JSON_THROW_ON_ERROR);
+        $sell = json_encode($listing->sells ?? [], JSON_THROW_ON_ERROR);
           return [
             'id' => Str::uuid(),
             'remote_item_id' => $listing->id,
-            'buy' => json_encode($listing->buys ?? []),
-            'sell' => json_encode($listing->sells ?? []),
+            'buy' => $buy,
+            'sell' => $sell,
             'created_at' => now(),
             'updated_at' => now(),
           ];
-        }, $listings),
+        } finally {
+          unset($buy, $sell);
+          unset($listing);
+        }
+      }, $listings);
+
+    
+
+      DB::table('listings')
+      ->upsert(
+        $values,
         'remote_item_id',
         ['buy', 'sell', 'updated_at']
       );
 
+      $this->output->write("done page " . $page . ": " .  memory_get_peak_usage(true) . "\r");
       $page++;
-      $bar->advance(count($listings));
+      // $bar->advance(count($listings));
       unset($listings);
     }
 
-    $bar->finish();
+    // $bar->finish();
+
+    return 0;
+  }
+
+  public function getPage(Client $client, $page)
+  {
+    try {
+      $response = $client->get('https://api.guildwars2.com/v2/commerce/listings?page=' . $page . '&page_size=200');
+      $body = $response->getBody();
+      return json_decode($body->getContents());
+    } catch (Throwable $e) {
+      return null;
+    } finally {
+      if (isset($body)) {
+        $body->close();
+      }
+      unset($body);
+      unset($response);
+    }
   }
 }
