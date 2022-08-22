@@ -41,6 +41,8 @@ class Item extends Model implements Syncable
         'chat_link',
         'icon',
         'details',
+        'updated_at',
+        'created_at',
     ];
 
     public function recipes()

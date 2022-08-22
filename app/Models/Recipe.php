@@ -30,6 +30,8 @@ class Recipe extends Model implements Syncable
         'min_rating',
         'flags',
         'chat_link',
+        'updated_at',
+        'created_at',
     ];
 
     public function ingredients()
