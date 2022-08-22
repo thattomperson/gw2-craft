@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Support\Syncer;
 use App\Models\Recipe;
 use GW2Treasures\GW2Api\GW2Api;
 use Illuminate\Console\Command;
@@ -31,17 +32,15 @@ class SyncRecipes extends Command
      */
     public function handle()
     {
-        $client = new GW2Api();
-        $this->checkForNewRecipes($client);
-        return 0;
-
-        // dd($client->recipes()->get(2801));
+      $client = new GW2Api();
+      with(new Syncer($client->recipes(), new Recipe(), $this->getOutput()))->sync();
+      return 0;
     }
 
     public function checkForNewRecipes(GW2Api $client)
     {
         $this->output->info('Checking for new recipes');
-        
+
         $ids = $client->recipes()->ids();
         $old_ids = Recipe::select('remote_id')->get()->pluck('remote_id')->toArray();
         $new_ids = collect(array_diff($ids, $old_ids));
@@ -60,7 +59,7 @@ class SyncRecipes extends Command
                     $recipe = [];
                     $recipe['id'] = Str::uuid();
                     $recipe['remote_id'] = $obj->id;
-                    
+
                     $recipe['type'] = $obj->type ?? null;
                     $recipe['output_item_id'] = $obj->output_item_id ?? null;
                     $recipe['output_item_count'] = $obj->output_item_count ?? null;

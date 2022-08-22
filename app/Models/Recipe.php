@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Console\Support\Syncable;
 use App\Models\Traits\HasUniqueIdentifier;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Recipe extends Model
+class Recipe extends Model implements Syncable
 {
     use HasFactory;
     use HasUniqueIdentifier;
@@ -46,6 +47,11 @@ class Recipe extends Model
     public function item()
     {
         return $this->belongsTo(Item::class, 'output_item_id', 'remote_id');
+    }
+
+    public function formatFromApi($response): array
+    {
+      return (array) $response;
     }
 
 }

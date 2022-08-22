@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
         ->runInBackground()
         ->withoutOverlapping()
         ->storeOutputInDb()
-        ->monthly();
+        ->daily();
 
       $schedule->command('sync:listings -vvv')
         ->runInBackground()

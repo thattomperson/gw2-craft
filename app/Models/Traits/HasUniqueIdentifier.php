@@ -7,13 +7,21 @@ use Illuminate\Support\Str;
 
 trait HasUniqueIdentifier
 {
+//   public $keyType = 'string';
+//   public $incrementing = false;
+
+
+  public function initializeHasUniqueIdentifier()
+  {
+    $this->setKeyType('string');
+    $this->setIncrementing(false);
+  }
+
     public static function boot()
     {
         parent::boot();
 
         static::creating(function (Model $model) {
-            $model->setKeyType('string');
-            $model->setIncrementing(false);
             $model->setAttribute($model->getKeyName(), Str::uuid());
         });
     }

@@ -27,19 +27,29 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-
-Route::resource('items', ItemController::class);
-Route::resource('recipes', RecipeController::class);
-Route::controller(ScheduleMonitorTaskController::class)->group(function () {
-  Route::get('/schedule-monitor', 'index');
-  Route::get('/schedule-monitor/{scheduleMonitorTask}', 'show');
-});
-Route::controller(ScheduleMonitorTaskLogItemController::class)->group(function () {
-  Route::get('/schedule-monitor/{scheduleMonitorTask}/logs', 'index')->scopeBindings();
-  Route::get('/schedule-monitor/{scheduleMonitorTask}/logs/{scheduleMonitorTaskLogItem}', 'show')->scopeBindings();
+Route::get('/health', function () {
+  return [
+    'status' => 'ok',
+  ];
 });
 
-Route::controller(SearchController::class)->group(function () {
-  Route::get('/search', 'search');
+Route::group(['middleware' => 'auth'], function () {
+
+  Route::resource('items', ItemController::class);
+  Route::resource('recipes', RecipeController::class);
+  Route::controller(ScheduleMonitorTaskController::class)->group(function () {
+    Route::get('/schedule-monitor', 'index');
+    Route::get('/schedule-monitor/{scheduleMonitorTask}', 'show');
+  });
+  Route::controller(ScheduleMonitorTaskLogItemController::class)->group(function () {
+    Route::get('/schedule-monitor/{scheduleMonitorTask}/logs', 'index')->scopeBindings();
+    Route::get('/schedule-monitor/{scheduleMonitorTask}/logs/{scheduleMonitorTaskLogItem}', 'show')->scopeBindings();
+  });
+
+  Route::controller(SearchController::class)->group(function () {
+    Route::get('/search', 'search');
+  });
 });
+
+
 require __DIR__.'/auth.php';

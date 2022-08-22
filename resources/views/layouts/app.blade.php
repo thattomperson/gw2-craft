@@ -219,14 +219,14 @@
                 <input @input.debounce.throttle="search" x-model="query" id="search-field" class="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm" placeholder="Search" type="search" name="search">
               </div>
             </form>
-            <div x-show="data.length && query" class="w-96 m-auto absolute top-20 left-8 bg-white shadow overflow-hidden rounded-md max-h-[800px] overflow-y-auto h-[calc(100vh-100px)]"  >
+            <div x-show="data.length && query" class="w-96 m-auto absolute top-20 left-8 bg-white shadow-lg overflow-hidden rounded-md max-h-[800px] overflow-y-auto h-[calc(100vh-100px)]"  >
               <ul role="list" class="divide-y divide-gray-200">
                 <template x-for="item in data">
                   <li class="px-6 py-4">
                     <a :href="`/items/${item.id}`">
                       <div class="flex items-center">
                         <div class="h-10 w-10 flex-shrink-0">
-                            <img class="h-10 w-10 rounded-full" :src="item.icon" alt="">
+                            <img class="h-10 w-10 rounded-sm" :src="item.icon" alt="">
                         </div>
                         <div class="ml-4">
                             <div class="font-medium text-gray-900" x-text="item.name"></div>

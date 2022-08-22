@@ -20,7 +20,6 @@ class ItemController extends Controller
         return view('items.list', ['items' => $items]);
     }
 
-
     /**
      * Display the specified resource.
      *

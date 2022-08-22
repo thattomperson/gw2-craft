@@ -2,29 +2,27 @@
 
 namespace App\Console\Commands;
 
-
+use App\Console\Support\Syncer;
 use App\Models\Item;
+use App\Models\Mastery;
 use GW2Treasures\GW2Api\GW2Api;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 
-class Sync extends Command
+class SyncMasteries extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'sync';
+    protected $signature = 'sync:masteries';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Sync all obj from GW2 api';
+    protected $description = 'Sync Masteries from GW2 api';
 
     /**
      * Execute the console command.
@@ -33,9 +31,8 @@ class Sync extends Command
      */
     public function handle()
     {
-        Artisan::call('sync:items', [], $this->getOutput());
-        Artisan::call('sync:recipes', [], $this->getOutput());
-        Artisan::call('sync:masteries', [], $this->getOutput());
-
+      $client = new GW2Api();
+      with(new Syncer($client->masteries(), new Mastery(), $this->getOutput()))->sync();
+      return 0;
     }
 }

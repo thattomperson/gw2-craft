@@ -6,13 +6,19 @@ use App\Models\Traits\HasUniqueIdentifier;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Listing extends Model
+class MasteryLevel extends Model
 {
     use HasFactory;
     use HasUniqueIdentifier;
 
-    protected $casts = [
-        'buy' => 'json',
-        'sell' => 'json',
+    protected $fillable = [
+      'name',
+      'description',
+      'instruction',
+      'icon',
+      'point_cost',
+      'exp_cost',
+      'created_at',
+      'updated_at',
     ];
 }

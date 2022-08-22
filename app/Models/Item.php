@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Console\Support\Syncable;
 use App\Models\Traits\HasUniqueIdentifier;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Laravel\Scout\Searchable;
+use Illuminate\Support\Str;
 
-class Item extends Model
+class Item extends Model implements Syncable
 {
     use HasFactory;
     use HasUniqueIdentifier;
@@ -79,5 +81,16 @@ class Item extends Model
       return [
         'name' => $this->name,
       ];
+    }
+
+    public function formatFromApi($response): array
+    {
+      return (array) $response;
+    }
+
+    public function setDefaultSkinAttribute($value)
+    {
+      $this->attributes['default_skin'] = $value ?? 0;
+      return $this;
     }
 }
