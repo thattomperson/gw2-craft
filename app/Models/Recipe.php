@@ -53,7 +53,11 @@ class Recipe extends Model implements Syncable
 
     public function formatFromApi($response): array
     {
-      return (array) $response;
+      $recipe = (array) $response;
+      $recipe['recipe_ingredients'] = $recipe['ingredients'];
+      unset($recipe['ingredients']);
+
+      return $recipe;
     }
 
 }

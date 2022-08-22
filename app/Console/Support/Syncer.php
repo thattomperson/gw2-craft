@@ -2,18 +2,16 @@
 
 namespace App\Console\Support;
 
+use Exception;
 use GW2Treasures\GW2Api\V2\Bulk\IBulkEndpoint;
 use GW2Treasures\GW2Api\V2\Pagination\IPaginatedEndpoint;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use ReflectionClass;
-use stdClass;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -62,12 +60,19 @@ class Syncer {
         $relation = $model->{$key}();
         $related = $relation->getRelated();
 
+        if ($relation instanceof HasOneOrMany) {
+          $forignKey = $relation->getForeignKeyName();
+        } elseif ($relation instanceof BelongsToMany) {
+          throw new Exception('Unsupported relation ' . $key);
+          // $relation->();
+        }
+
         return [
-          $related->getTable() => Arr::map($values, function ($values, $index) use ($related, $relation, $localKey) {
+          $related->getTable() => Arr::map($values, function ($values, $index) use ($related, $forignKey, $localKey) {
             return array_merge(
               [
                 'id' => $this->id($related->getTable(), $localKey . $index),
-                $relation->getForeignKeyName() => $localKey,
+                $forignKey => $localKey,
               ],
               $this->values($related, (array) $values, $localKey),
             );
@@ -86,6 +91,7 @@ class Syncer {
       $count = count($this->endpoint->ids());
     }
 
+    $this->output->writeln("Starting sync of " . get_class($this->model));
     $bar = new ProgressBar($this->output, $count);
 
     $bar->setEmptyBarCharacter('░'); // light shade character \u2591
@@ -99,7 +105,7 @@ class Syncer {
       $values = Arr::map($results, function ($result) use (&$related) {
         $values = $this->values($this->model, (array) $result);
 
-        foreach ($this->relationships($this->model, (array) $result, $values['id']) as $table => $relatedValues) {
+        foreach ($this->relationships($this->model, $values, $values['id']) as $table => $relatedValues) {
           $related[$table] ??= [];
           $related[$table] = [...$related[$table], ...$relatedValues];
         };
@@ -122,5 +128,6 @@ class Syncer {
       $bar->advance(count($results));
     });
     $bar->finish();
+    $this->output->writeln("Successfuly synced " . get_class($this->model));
   }
 }
